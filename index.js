@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/bex/create", (req, res) => {
-    let query = req.query;
+    let query = req.query.name;
     res.json({ response: query });
 })
 
