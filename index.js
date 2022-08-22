@@ -9,8 +9,8 @@ app.get("/", (req, res) => {
 app.get("/bex/create", (req, res) => {
     let firstName = req.query["firstName"];
     let lastName = req.query["lastName"];
-    if (!firstName || !last) return res.json({ error: "First and last name must be provided." });
-    res.json({ firstName: firstName, lastName: last });
+    if (!firstName || !lastName) return res.json({ error: "First and last name must be provided." });
+    res.json({ firstName: firstName, lastName: lastName });
 })
 
 app.listen(9000);
