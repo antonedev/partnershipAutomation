@@ -1,4 +1,4 @@
-const e = require("express");
+const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
 
@@ -6,8 +6,8 @@ app.get("/", (req, res) => {
     res.json({ response: "B-OK" });
 })
 
-app.listen(9000, (e) => {
-    console.log(e);
-});
+app.get("/bex/create", (req, res) => {
+    res.json({ response: "Ready" });
+})
 
-//testing reset123456789
+app.listen(9000);
