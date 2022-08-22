@@ -7,8 +7,9 @@ app.get("/", (req, res) => {
 })
 
 app.get("/bex/create", (req, res) => {
-    let query = req.query.name;
-    res.json({ response: query });
+    let first = req.query["firstName"];
+    let last = req.query["lastName"];
+    res.json({ firstName: first, lastName: last });
 })
 
 app.listen(9000);
