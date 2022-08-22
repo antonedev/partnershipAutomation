@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 app.post("/bex/create-agent", (req, res) => {
     let firstName = req.body["firstName"];
     let lastName = req.body["lastName"];
-    if (!firstName || !lastName) return res.json({ error: "First and last name must be provided." });
+    if (!firstName || !lastName) return res.json({ Error: "firstName and lastName are required." });
     res.json({ firstName: firstName, lastName: lastName });
 })
 
