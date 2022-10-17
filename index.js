@@ -12,11 +12,15 @@ app.get("/", (req, res) => {
 })
 
 app.post("/bex/create-agent", (req, res) => {
+    if (!req.headers.authorization) return res.status(402).json({ Error: "Authorization header is required" });
+    if (req.headers.authorization != process.env.AUTHORIZATION) return res.status(402).json({ Error: "Authroization invalid" });
+    if (!req.body["firstName"] || !req.body["lastName"]) return res.status(400).json({ Error: "firstName and lastName are required." });
+
     let firstName = req.body["firstName"];
     let lastName = req.body["lastName"];
-    if (!firstName || !lastName) return res.status(400).json({ Error: "firstName and lastName are required." });
-    res.status(202).json({ firstName: firstName, lastName: lastName, AuthCode: req.headers.authorization });
+    res.status(202).json({ firstName: firstName, lastName: lastName });
     return;
+
     (async (firstName, lastName) => {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
@@ -35,8 +39,8 @@ app.post("/bex/create-agent", (req, res) => {
         await page.waitForNavigation({ waitUntil: "load" });
         const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
         const transporter = await nodemailer.createTransport({
-            host: "mx.antone.dev",
-            port: 587,
+            host: process.env.MX_HOST,
+            port: process.env.MX_PORT,
             secure: false,
             auth: {
                 user: process.env.MX_ACCT,
@@ -69,7 +73,7 @@ app.post("/bex/create-agent", (req, res) => {
         await page.click("#done_wrapper > div > a");
         await page.waitForSelector("#wizard_save", { visible: true });
         await page.click("#wizard_save");
-        await page.waitForNavigation({waitUntil: "domcontentloaded"});
+        await page.waitForNavigation({ waitUntil: "domcontentloaded" });
         await browser.close();
     })();
 })
