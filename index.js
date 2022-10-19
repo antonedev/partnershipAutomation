@@ -20,7 +20,7 @@ app.post("/bex/create-agent", (req, res) => {
     let notificationEmail = req.body["notificationEmail"];
     let firstName = req.body["firstName"];
     let lastName = req.body["lastName"];
-    res.status(202).json({ firstName: firstName, lastName: lastName });
+    res.status(202).json({ firstName: firstName, lastName: lastName, notificationEmail: notificationEmail });
     console.log(`New Request: ${firstName} ${lastName}\nNotification Email: ${notificationEmail}`);
 
     createAgent(firstName, lastName, notificationEmail);
