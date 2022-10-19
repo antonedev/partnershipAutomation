@@ -23,12 +23,13 @@ app.post("/bex/create-agent", (req, res) => {
     res.status(202).json({ firstName: firstName, lastName: lastName });
     console.log(`New Request: ${firstName} ${lastName}\nNotification Email: ${notificationEmail}`);
 
-    createAgent(firstName, lastName);
+    createAgent(firstName, lastName, notificationEmail);
 })
 
 app.listen(9000);
 
-async function createAgent(firstName, lastName) {
+async function createAgent(firstName, lastName, notificationEmail) {
+    console.log(`createAgent running!`);
     const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium", headless: true });
     const page = await browser.newPage();
     console.log(`Browser opened`);
