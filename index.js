@@ -86,7 +86,7 @@ app.post("/bex/create-agent", (req, res) => {
             },
         });
         await notificationTransporter.sendMail({
-            from: "'Automation Testing' <automation@antone.dev>",
+            from: "'Verse Partnership Automation' <automation@antone.dev>",
             to: notificationEmail,
             subject: `BEX Parser created for ${firstName} ${lastName}`,
             text: `A new Mailparser inbox has been created for ${firstName} ${lastName}!
