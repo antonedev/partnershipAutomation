@@ -15,7 +15,7 @@ app.post("/bex/create-agent", (req, res) => {
     if (!req.headers.authorization) return res.status(402).json({ Error: "Authorization header is required" });
     if (req.headers.authorization != process.env.AUTHORIZATION) return res.status(402).json({ Error: "Authroization invalid" });
     if (!req.body["firstName"] || !req.body["lastName"]) return res.status(400).json({ Error: "firstName and lastName are required." });
-    if (!req.body["notificationEmail"]) return res.status(400).json({Error: "notificationEmail is required."})
+    if (!req.body["notificationEmail"]) return res.status(400).json({ Error: "notificationEmail is required." })
 
     let notificationEmail = req.body["notificationEmail"];
     let firstName = req.body["firstName"];
@@ -23,7 +23,7 @@ app.post("/bex/create-agent", (req, res) => {
     res.status(202).json({ firstName: firstName, lastName: lastName });
 
     (async (firstName, lastName) => {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium", headless: true });
         const page = await browser.newPage();
         await page.setDefaultNavigationTimeout(0);
         await page.goto("https://app.mailparser.io/account/login", {
