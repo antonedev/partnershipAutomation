@@ -30,7 +30,7 @@ app.listen(9000);
 
 async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`createAgent running!`);
-    const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium", headless: true });
+    const browser = await puppeteer.launch({ headless: true });
     console.log(`Browser opened`);
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(0);
