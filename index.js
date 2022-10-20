@@ -41,11 +41,14 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.type("#email", process.env.MP_ACCT);
     await page.type("#password", process.env.MP_PASS);
     await page.click("#start-free-sub");
-    await page.waitForSelector("#dashbaord_inbox_add", { visible: true });
+    await page.waitForNavigation({ waitUntil: "domcontentloaded" });
     console.log(`Loaded ${page.url()}`);
     await page.click("#dashboard_inbox_add");
+    console.log("Clicked...");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
+    console.log("Added Name to Label...");
     await page.select("select[name='inbox_category_id']", "3015");
+    console.log("Set Category to BEX...");
     await page.click("#btn_add_address_save");
     await page.waitForNavigation({ waitUntil: "domcontentloaded" });
     console.log(`Loaded ${page.url()}`);
