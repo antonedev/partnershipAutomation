@@ -26,6 +26,7 @@ app.post("/bex/create-agent", (req, res) => {
     createAgent(firstName, lastName, notificationEmail).catch(err => console.log(err));
 })
 
+
 app.listen(9000);
 
 async function createAgent(firstName, lastName, notificationEmail) {
