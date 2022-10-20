@@ -50,6 +50,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.waitForNavigation({ waitUntil: "load" });
     console.log(`Loaded ${page.url()}`);
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
+    console.log("address: " + address);
     const transporter = await nodemailer.createTransport({
         host: process.env.MX_HOST,
         port: process.env.MX_PORT,
