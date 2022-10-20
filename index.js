@@ -47,6 +47,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.click("#dashboard_inbox_add");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
     await page.select("select[name='inbox_category_id']", "3015");
+    // wtf!!!!!!! won't run twice vvv
     await Promise.all([
         page.waitForNavigation({ waitUntil: "domcontentloaded" }),
         page.click("#btn_add_address_save"),
