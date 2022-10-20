@@ -49,9 +49,9 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log("Added Name to Label...");
     await page.select("select[name='inbox_category_id']", "3015");
     console.log("Set Category to BEX...");
-    page.click("#btn_add_address_save");
+    await page.click("#btn_add_address_save");
+    await page.waitForSelector(".created_inbox_link", { visible: true });
     console.log(`Loaded ${page.url()}`);
-    await page.waitForNavigation({ waitUntil: "load" })
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
     console.log("address: " + address);
     const transporter = await nodemailer.createTransport({
