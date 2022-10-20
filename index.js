@@ -50,8 +50,10 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log("Added Name to Label...");
     await page.select("select[name='inbox_category_id']", "3015");
     console.log("Set Category to BEX...");
-    await page.click("#btn_add_address_save");
-    await page.waitForSelector(".created_inbox_link", { visible: true });
+    await Promise.all([
+        page.waitForSelector(".create_inbox_link", { visible: true }),
+        page.click("#btn_add_address_save"),
+    ]);
     console.log(`Loaded ${page.url()}`);
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
     console.log("address: " + address);
