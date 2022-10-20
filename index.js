@@ -93,16 +93,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.waitForNavigation({ waitUntil: "domcontentloaded" });
     console.log(`Loaded ${page.url()}`);
     const inboxURL = page.url();
-    const notificationTransporter = await nodemailer.createTransport({
-        host: process.env.MX_HOST,
-        port: process.env.MX_PORT,
-        secure: false,
-        auth: {
-            user: process.env.MX_ACCT,
-            pass: process.env.MX_PASS,
-        },
-    });
-    await notificationTransporter.sendMail({
+    await transporter.sendMail({
         from: "'Verse Partnership Automation' <automation@antone.dev>",
         to: notificationEmail,
         subject: `BEX Parser created for ${firstName} ${lastName}`,
