@@ -23,7 +23,7 @@ app.post("/bex/create-agent", (req, res) => {
     res.status(202).json({ firstName: firstName, lastName: lastName, notificationEmail: notificationEmail });
     console.log(`New Request: ${firstName} ${lastName}\nNotification Email: ${notificationEmail}`);
 
-    createAgent(firstName, lastName, notificationEmail).catch(err => console.log(err));
+    createAgent(firstName, lastName, notificationEmail);
 })
 
 app.listen(9000);
@@ -41,8 +41,10 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`Loaded ${page.url()}`);
     await page.type("#email", process.env.MP_ACCT);
     await page.type("#password", process.env.MP_PASS);
-    await page.click("#start-free-sub");
-    await page.waitForNavigation({ waitUntil: "domcontentloaded" });
+    await Promise.all([
+        page.waitForNavigation({ waitUntil: "domcontentloaded" }),
+        page.click("#start-free-sub"),
+    ]);
     console.log(`Loaded ${page.url()}`);
     await page.click("#dashboard_inbox_add");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
