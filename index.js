@@ -42,8 +42,8 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.type("#email", process.env.MP_ACCT);
     await page.type("#password", process.env.MP_PASS);
     await Promise.all([
-        page.waitForNavigation({ waitUntil: "domcontentloaded" }),
         page.click("#start-free-sub"),
+        page.waitForNavigation(),
     ]).catch(e => console.log(e));
     console.log(`Loaded ${page.url()}`);
     await page.click("#dashboard_inbox_add");
@@ -51,8 +51,8 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.select("select[name='inbox_category_id']", "3015");
     // wtf!!!!!!! won't run twice vvv
     await Promise.all([
-        page.waitForNavigation({ waitUntil: "domcontentloaded" }),
         page.click("#btn_add_address_save"),
+        page.waitForNavigation(),
     ]).catch(e => console.log(e));
     console.log(`Loaded ${page.url()}`);
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
