@@ -44,7 +44,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await Promise.all([
         page.waitForNavigation({ waitUntil: "domcontentloaded" }),
         page.click("#start-free-sub"),
-    ]);
+    ]).catch(e => console.log(e));
     console.log(`Loaded ${page.url()}`);
     await page.click("#dashboard_inbox_add");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
@@ -53,7 +53,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await Promise.all([
         page.waitForNavigation({ waitUntil: "domcontentloaded" }),
         page.click("#btn_add_address_save"),
-    ]);
+    ]).catch(e => console.log(e));
     console.log(`Loaded ${page.url()}`);
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
     console.log("address: " + address);
