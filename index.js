@@ -41,8 +41,8 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`Loaded ${page.url()}`);
     await page.type("#email", process.env.MP_ACCT);
     await page.type("#password", process.env.MP_PASS);
-    page.click("#start-free-sub");
-    page.waitForNavigation();
+    await page.click("#start-free-sub");
+    await page.waitForNavigation();
     console.log(`Loaded ${page.url()}`);
     await page.click("#dashboard_inbox_add");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
