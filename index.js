@@ -34,7 +34,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`Browser opened`);
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(60000);
-    await page.setDefaultTimeout(0);
+    await page.setDefaultTimeout(120000);
     await page.goto("https://app.mailparser.io/account/login", {
         waitUntil: 'domcontentloaded'
     });
@@ -52,7 +52,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.type("input[name='label']", `${firstName} ${lastName}`);
     await page.select("select[name='inbox_category_id']", "3015");
     await Promise.all([
-        page.waitForSelector("a.created_inbox_link"),
+        page.waitForSelector(".created_inbox_link"),
         page.click("#btn_add_address_save")
     ]);
     console.log(`Loaded ${page.url()}`);
