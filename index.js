@@ -33,26 +33,30 @@ async function createAgent(firstName, lastName, notificationEmail) {
     const browser = await puppeteer.launch({ headless: true });
     console.log(`Browser opened`);
     const page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(0);
-    await page.setDefaultTimeout(0);
+    //await page.setDefaultNavigationTimeout(0);
+    //await page.setDefaultTimeout(0);
     await page.goto("https://app.mailparser.io/account/login", {
         waitUntil: 'domcontentloaded'
     });
     console.log(`Loaded ${page.url()}`);
+
     await page.type("#email", process.env.MP_ACCT);
     await page.type("#password", process.env.MP_PASS);
-    await page.click("#start-free-sub");
-    await page.waitForNavigation();
+    await Promise.all([
+        page.waitForNavigation(),
+        page.click("#start-free-sub"),
+    ]);
     console.log(`Loaded ${page.url()}`);
+
     await page.click("#dashboard_inbox_add");
     await page.type("input[name='label']", `${firstName} ${lastName}`);
     await page.select("select[name='inbox_category_id']", "3015");
-    // wtf!!!!!!! won't run twice vvv
     await Promise.all([
-        page.click("#btn_add_address_save"),
         page.waitForNavigation(),
-    ]).catch(e => console.log(e));
+        page.click("#btn_add_address_save"),
+    ]);
     console.log(`Loaded ${page.url()}`);
+
     const address = await page.$eval("a.created_inbox_link", anchor => anchor.textContent);
     console.log("address: " + address);
     const transporter = await nodemailer.createTransport({
