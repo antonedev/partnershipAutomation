@@ -34,7 +34,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`Browser opened`);
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(60000);
-    await page.setDefaultTimeout(60000);
+    await page.setDefaultTimeout(0);
     await page.goto("https://app.mailparser.io/account/login", {
         waitUntil: 'domcontentloaded'
     });
