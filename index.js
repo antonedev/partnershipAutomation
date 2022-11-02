@@ -30,11 +30,11 @@ app.listen(9000);
 
 async function createAgent(firstName, lastName, notificationEmail) {
     console.log(`createAgent running!`);
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     console.log(`Browser opened`);
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(60000);
-    await page.setDefaultTimeout(120000);
+    await page.setDefaultTimeout(60000);
     await page.goto("https://app.mailparser.io/account/login", {
         waitUntil: 'domcontentloaded'
     });
@@ -52,8 +52,8 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.type("input[name='label']", `${firstName} ${lastName}`);
     await page.select("select[name='inbox_category_id']", "3015");
     await Promise.all([
-        page.waitForNavigation({waitUntil: "load"}),
-        page.click("#btn_add_address_save")
+        page.waitForNavigation({ waitUntil: "load" }),
+        page.click("#btn_add_address_save"),
     ]);
     console.log(`Loaded ${page.url()}`);
 
@@ -91,11 +91,14 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await page.waitForSelector("#done_wrapper", {
         visible: true,
     });
-    await page.click("#done_wrapper > div > a");
-    await page.waitForSelector("#wizard_save", { visible: true });
-    console.log(`Loaded ${page.url()}`);
-    await page.click("#wizard_save");
-    await page.waitForNavigation({ waitUntil: "domcontentloaded" });
+    await Promise.all([
+        page.click("#done_wrapper > div > a"),
+        page.waitForSelector("#wizard_save", { visible: true }),
+    ]);
+    await Promise.all([
+        page.click("#wizard_save"),
+        page.waitForNavigation(),
+    ]);
     console.log(`Loaded ${page.url()}`);
     const inboxURL = page.url();
     await transporter.sendMail({
