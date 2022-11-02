@@ -45,7 +45,7 @@ async function createAgent(firstName, lastName, notificationEmail) {
     await Promise.all([
         page.waitForNavigation(),
         page.click("#start-free-sub"),
-    ]);
+    ]).then(e => console.log(e));
     console.log(`Loaded ${page.url()}`);
 
     await page.click("#dashboard_inbox_add");
